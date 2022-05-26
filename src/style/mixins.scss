@@ -1,0 +1,29 @@
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin input {
+  outline: none;
+  border: none;
+  background: transparent;
+  appearance: none;
+  &::-webkit-input-placeholder{
+    color: #B7B7B7;
+  }
+  &::-ms-input-placeholder{
+    color: #B7B7B7;
+  }
+}
+
+// 背景图片
+@mixin bg-image($url) {
+  background-image: url($url + '@2x.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @media (-webkit-min-device-pixel-ratio:3),(min-device-pixel-ratio:3) {
+    background-image: url($url + '@3x.png');
+  }
+}
