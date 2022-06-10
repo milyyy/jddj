@@ -2,10 +2,10 @@
   <div class="user">
     <div class="user__avatar"></div>
     <div class="user__phone">
-      <input type="text" placeholder="请输入手机号">
+      <input type="text" v-model="user.username" placeholder="用户名称">
     </div>
     <div class="user__password">
-      <input type="text" placeholder="请输入密码">
+      <input type="text" v-model="user.password" placeholder="用户密码">
     </div>
     <div class="user__login" @click="handleLogin">登陆</div>
     <div class="user__register">
@@ -17,20 +17,33 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { reactive } from 'vue'
 export default {
   name: 'login',
   setup() {
+    const user = reactive({
+      username: '',
+      password: ''
+    })
     const router = useRouter()
-    const handleLogin = () => {
-      localStorage.setItem('isLogin', true)
-      router.push({ name: 'home' })
+    const handleLogin = async() => {
+      try {
+        // 登录接口 => 登录成功跳转
+        // const result = await axios.get('/api/login', {
+        //   username: user.username,
+        //   password: user.password
+        // })
+        localStorage.setItem('isLogin', true)
+        router.push({ name: 'home' })
+      } catch (e) {}
     }
     const toRegister = () => {
       router.push({ name: 'register' })
     }
     return {
       handleLogin,
-      toRegister
+      toRegister,
+      user
     }
   }
 }
