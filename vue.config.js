@@ -1,18 +1,19 @@
-const { defineConfig } = require('@vue/cli-service');
+const { defineConfig } = require('@vue/cli-service')
+const path = require('path')
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 module.exports = defineConfig({
   transpileDependencies: true,
   chainWebpack(config) {
     // 配置全局sass
-    globalSass(config);
+    globalSass(config)
     config.resolve.alias
       .set('@', resolve('src'))
       .set('assets', resolve('src/assets'))
       .set('components', resolve('src/components'))
       .set('utils', resolve('src/utils'))
-      .set('store', resolve('src/store'));
+      .set('store', resolve('src/store'))
   },
   devServer: {
     open: true,
@@ -30,7 +31,7 @@ module.exports = defineConfig({
       },
     },
   },
-});
+})
 
 /**
  * 全局变量的Sass引方法
@@ -41,7 +42,7 @@ module.exports = defineConfig({
  *"sass-resources-loader": "^2.2.5"
  */
 const globalSass = (config) => {
-  const oneOfsMap = config.module.rule('scss').oneOfs.store;
+  const oneOfsMap = config.module.rule('scss').oneOfs.store
   oneOfsMap.forEach((item) => {
     item
       .use('sass-resources-loader')
@@ -49,6 +50,6 @@ const globalSass = (config) => {
       .options({
         resources: './src/style/index.scss', // 相对路径
       })
-      .end();
-  });
-};
+      .end()
+  })
+}

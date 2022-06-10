@@ -3,7 +3,7 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['plugin:vue/vue3-essential', '@vue/prettier'],
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended'],
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
@@ -13,4 +13,4 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     'space-before-function-paren': 0,
   },
-}
+};
