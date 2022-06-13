@@ -12,38 +12,49 @@
       <span @click="toRegister">立即注册</span> |
       <span>忘记密码</span>
     </div>
+    <Toast v-if="ToastData.toastShow" :message="ToastData.toastMsg" />
   </div>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
+import Toast, { ToastDataEffect } from 'components/Toast';
+
 export default {
   name: 'login',
+  components: { Toast },
   setup() {
-    const user = reactive({
-      username: '',
-      password: '',
-    });
     const router = useRouter();
+    const user = reactive({ username: '', password: '' });
+    const { ToastData, showToast } = ToastDataEffect();
     const handleLogin = async () => {
       try {
-        // 登录接口 => 登录成功跳转
+        // 登录接口 => 登录成功跳转 没有接口暂不校验
         // const result = await axios.get('/api/login', {
         //   username: user.username,
         //   password: user.password
         // })
-        localStorage.setItem('isLogin', true);
-        router.push({ name: 'home' });
-      } catch (e) {}
+        if (user.username && user.password) {
+          localStorage.setItem('isLogin', true);
+          router.push({ name: 'home' });
+          showToast('登录成功');
+        } else {
+          showToast('登录失败');
+        }
+      } catch (e) {
+        showToast('请求失败');
+      }
     };
     const toRegister = () => {
       router.push({ name: 'register' });
     };
     return {
+      user,
       handleLogin,
       toRegister,
-      user,
+      showToast,
+      ToastData
     };
   },
 };
