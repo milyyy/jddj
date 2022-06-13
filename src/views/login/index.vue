@@ -17,18 +17,19 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
-import { ref, reactive } from 'vue';
-import Toast, { ToastDataEffect } from 'components/Toast';
+import { useRouter } from 'vue-router'
+import { ref, reactive } from 'vue'
+import Toast, { ToastDataEffect } from 'components/Toast'
 
 export default {
   name: 'login',
   components: { Toast },
   setup() {
-    const router = useRouter();
-    const user = reactive({ username: '', password: '' });
-    const { ToastData, showToast } = ToastDataEffect();
-    const handleLogin = async () => {
+    const router = useRouter()
+    const user = reactive({ username: '', password: '' })
+    const { ToastData, showToast } = ToastDataEffect()
+
+    const handleLogin = () => {
       try {
         // 登录接口 => 登录成功跳转 没有接口暂不校验
         // const result = await axios.get('/api/login', {
@@ -36,28 +37,28 @@ export default {
         //   password: user.password
         // })
         if (user.username && user.password) {
-          localStorage.setItem('isLogin', true);
-          router.push({ name: 'home' });
-          showToast('登录成功');
+          localStorage.setItem('isLogin', true)
+          router.push({ name: 'home' })
+          showToast('登录成功')
         } else {
-          showToast('登录失败');
+          showToast('登录失败')
         }
       } catch (e) {
-        showToast('请求失败');
+        showToast('请求失败')
       }
-    };
+    }
     const toRegister = () => {
-      router.push({ name: 'register' });
-    };
+      router.push({ name: 'register' })
+    }
     return {
       user,
       handleLogin,
       toRegister,
       showToast,
-      ToastData
-    };
+      ToastData,
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
