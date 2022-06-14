@@ -2,60 +2,68 @@
   <div class="user">
     <div class="user__avatar"></div>
     <div class="user__phone">
-      <input type="text" v-model="user.username" placeholder="用户名称" />
+      <input type="text" v-model="username" placeholder="用户名称" />
     </div>
     <div class="user__password">
-      <input type="text" v-model="user.password" placeholder="用户密码" />
+      <input type="text" v-model="password" placeholder="用户密码" />
     </div>
     <div class="user__login" @click="handleLogin">登陆</div>
     <div class="user__register">
       <span @click="toRegister">立即注册</span> |
       <span>忘记密码</span>
     </div>
-    <Toast v-if="ToastData.toastShow" :message="ToastData.toastMsg" />
+    <Toast v-if="toastShow" :message="toastMsg" />
   </div>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
-import { ref, reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 import Toast, { ToastDataEffect } from 'components/Toast'
 
+const useLoginEffect = (toastFn) => {
+  const user = reactive({ username: '', password: '' })
+  const router = useRouter()
+  const handleLogin = () => {
+    try {
+      //  登录接口 => 登录成功跳转 没有写接口暂不校验
+      //  const result = await axios.get('/api/login', { username: user.username, password: user.password})
+      if (user.username && user.password) {
+        localStorage.setItem('isLogin', true)
+        router.push({ name: 'home' })
+        toastFn('登录成功')
+      } else {
+        toastFn('登录失败')
+      }
+    } catch (e) {
+      toastFn('请求失败')
+    }
+  }
+  const { username, password } = toRefs(user)
+  return { username, password, handleLogin }
+}
+const useRegisterEffect = () => {
+  const router = useRouter()
+  const toRegister = () => {
+    router.push({ name: 'register' })
+  }
+  return { toRegister }
+}
 export default {
   name: 'login',
   components: { Toast },
   setup() {
-    const router = useRouter()
-    const user = reactive({ username: '', password: '' })
-    const { ToastData, showToast } = ToastDataEffect()
-
-    const handleLogin = () => {
-      try {
-        // 登录接口 => 登录成功跳转 没有接口暂不校验
-        // const result = await axios.get('/api/login', {
-        //   username: user.username,
-        //   password: user.password
-        // })
-        if (user.username && user.password) {
-          localStorage.setItem('isLogin', true)
-          router.push({ name: 'home' })
-          showToast('登录成功')
-        } else {
-          showToast('登录失败')
-        }
-      } catch (e) {
-        showToast('请求失败')
-      }
-    }
-    const toRegister = () => {
-      router.push({ name: 'register' })
-    }
+    const { toastShow, toastMsg, showToast } = ToastDataEffect()
+    const { username, password, handleLogin } = useLoginEffect(showToast)
+    const { toRegister } = useRegisterEffect()
     return {
-      user,
-      handleLogin,
+      toastShow,
+      toastMsg,
+      showToast, // toast
+      username,
+      password,
+      handleLogin, // user
       toRegister,
-      showToast,
-      ToastData,
     }
   },
 }
