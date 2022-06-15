@@ -15,18 +15,16 @@
 </template>
 
 <script>
-import { getCurrentInstance, reactive } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 export default {
   name: 'Nearby',
   setup() {
     const { proxy } = getCurrentInstance()
-    let shopList = reactive([]);
+    let shopList = ref([]);
     proxy.$axios.get('/api/getShopList').then(response => {
-      shopList = response.data?.list
-      console.log(shopList);
+      shopList.value = response.data?.list
     }, err => {})
-
-
+    
     return {
       shopList
     }

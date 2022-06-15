@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'utils/request'
+import axios from 'utils/http'
 import 'normalize.css' // 解决浏览器差异
 import './style/index.scss'
 
