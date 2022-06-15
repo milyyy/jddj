@@ -18,17 +18,20 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, getCurrentInstance } from 'vue'
 import Toast, { ToastDataEffect } from 'components/Toast'
 
 const useLoginEffect = (toastFn) => {
-  const user = reactive({ username: '', password: '' })
+  const user = reactive({ username: 'admin', password: '123456' })
   const router = useRouter()
-  const handleLogin = () => {
+  const { proxy } = getCurrentInstance()
+  const handleLogin = async () => {
     try {
-      //  登录接口 => 登录成功跳转 没有写接口暂不校验
-      //  const result = await axios.get('/api/login', { username: user.username, password: user.password})
-      if (user.username && user.password) {
+      const result = await proxy.$axios.post('/api/login', {
+        username: user.username,
+        password: user.password,
+      })
+      if (result.data?.verifySuccess) {
         localStorage.setItem('isLogin', true)
         router.push({ name: 'home' })
         toastFn('登录成功')
