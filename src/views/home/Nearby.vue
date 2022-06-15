@@ -15,32 +15,17 @@
 </template>
 
 <script>
+import { getCurrentInstance, reactive } from 'vue'
 export default {
   name: 'Nearby',
   setup() {
-    const shopList = [
-      {
-        id: 1,
-        name: '沃尔玛',
-        imgUrl: require('@/assets/icons/医药健康@3x.png'),
-        tags: ['月售1万+', '起送¥0', '基础运费¥5'],
-        desc: 'VIP尊享满89元减4元运费券（每月3张）'
-      },
-      {
-        id: 2,
-        name: '山姆会员商店',
-        imgUrl: require('@/assets/icons/医药健康@3x.png'),
-        tags: ['月售1万+', '起送¥30', '基础运费¥5'],
-        desc: 'VIP尊享满90元减6元运费券（每月3张）'
-      },
-      {
-        id: 3,
-        name: '大润发',
-        imgUrl: require('@/assets/icons/医药健康@3x.png'),
-        tags: ['月售1万+', '起送¥50', '基础运费¥6'],
-        desc: 'VIP尊享满100元减5元运费券（每月3张）'
-      }
-    ]
+    const { proxy } = getCurrentInstance()
+    let shopList = reactive([]);
+    proxy.$axios.get('/api/getShopList').then(response => {
+      shopList = response.data?.list
+      console.log(shopList);
+    }, err => {})
+
 
     return {
       shopList

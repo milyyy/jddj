@@ -11,11 +11,15 @@ const routes = [
     component: Home
   },
   {
+    path: '/shop',
+    name: 'Shop',
+    component: () => import(/* webpackChunkName: "shop" */ '@/views/shop')
+  },
+  {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login'),
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login'),
     beforeEnter: (to, from, next) => {
-      // 如果用户已登陆重定向至首页
       const isLogin = localStorage.getItem('isLogin')
       isLogin ? next('home') : next()
     }
@@ -23,9 +27,8 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: () => import('@/views/register'),
+    component: () => import(/* webpackChunkName: "register" */ '@/views/register'),
     beforeEnter: (to, from, next) => {
-      // 如果用户已登陆重定向至首页
       const isLogin = localStorage.getItem('isLogin')
       isLogin ? next('home') : next()
     }

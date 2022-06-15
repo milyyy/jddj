@@ -22,7 +22,7 @@ module.exports = defineConfig({
     https: false,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000/api/', // 服务器请求接口地址
+        target: 'https://www.fastmock.site/mock/a8d6e6e531d0a37f4b8d962892c08cda/api', // 服务器请求接口地址
         ws: true,
         changeOrigin: true,
         pathRewrite: {

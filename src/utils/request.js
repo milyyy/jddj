@@ -16,7 +16,8 @@ axios.interceptors.request.use(
     // do sth as start loading
     startLoading();
     if (localStorage.getItem('token')) {
-      config.headers.Authorization = localStorage.getItem('token');
+      // config.headers.Authorization = localStorage.getItem('token');
+      config.headers.Authorization = 'abcd';
     }
     return config;
   },
@@ -31,7 +32,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     closeLoading();
-    return response;
+    return response.data;
   },
   (err) => {
     closeLoading();
