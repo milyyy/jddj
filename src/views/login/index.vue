@@ -17,22 +17,23 @@
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import { reactive, toRefs, getCurrentInstance } from 'vue'
 import Toast, { ToastDataEffect } from 'components/Toast'
+import { Login } from 'utils/api'
 
 const useLoginEffect = (toastFn) => {
   const user = reactive({ username: 'admin', password: '123456' })
   const router = useRouter()
-  const { proxy } = getCurrentInstance()
   const handleLogin = async () => {
     try {
-      const result = await proxy.$axios.post('/api/login', {
+      const result = await Login({
         username: user.username,
         password: user.password,
       })
       if (result.data?.verifySuccess) {
         localStorage.setItem('isLogin', true)
+        localStorage.setItem('token', result.data?.userInfo?.token)
         router.push({ name: 'home' })
         toastFn('登录成功')
       } else {

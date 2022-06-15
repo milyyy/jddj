@@ -3,18 +3,20 @@ import baseURL from './baseURL'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-axios.defaults.timeout = 5000
-axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.baseURL = baseURL
-console.log(baseURL);
+const axiosInstance = axios.create({
+  baseURL: baseURL,
+  timeout: 5000,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+  },
+})
 
 // 添加请求拦截器
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     // do sth as start loading
     if (localStorage.getItem('token')) {
-      // config.headers.Authorization = localStorage.getItem('token');
-      config.headers.Authorization = 'abcd'
+      config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
     }
     return config
   },
@@ -25,7 +27,7 @@ axios.interceptors.request.use(
 )
 
 // 添加响应拦截器
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response.data
   },
@@ -50,4 +52,31 @@ axios.interceptors.response.use(
   },
 )
 
-export default axios
+export function request(url = '', params = {}, type = 'POST') {
+  return new Promise((resolve, reject) => {
+    let promise = ''
+    if (type.toUpperCase() === 'GET') {
+      promise = axiosInstance({
+        url,
+        params,
+        method: 'GET',
+      })
+    }
+    if (type.toUpperCase() === 'POST') {
+      promise = axiosInstance({
+        url,
+        data: params,
+        method: 'POST',
+      })
+    }
+    promise
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+// export default axiosInstance

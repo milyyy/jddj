@@ -15,16 +15,16 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref } from 'vue'
+import { ref } from 'vue'
+import { GetShopList } from 'utils/api'
 export default {
   name: 'Nearby',
   setup() {
-    const { proxy } = getCurrentInstance()
     let shopList = ref([]);
-    proxy.$axios.get('/api/getShopList').then(response => {
+    GetShopList().then(response => {
       shopList.value = response.data?.list
     }, err => {})
-    
+
     return {
       shopList
     }

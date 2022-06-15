@@ -21,16 +21,15 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance } from 'vue'
+import { ref } from 'vue'
+import { getShopTypeList } from 'utils/api'
 export default {
   name: 'StaticPart',
   setup() {
-    const { proxy } = getCurrentInstance()
     let iconList = ref([])
     const getList = async () => {
       try {
-        const list = await proxy.$axios.get('/api/getShopTypeList')
-        console.log(list)
+        const list = await getShopTypeList()
         iconList.value = list?.data
       } catch (e) {}
     }

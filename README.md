@@ -6,13 +6,12 @@
 #### 目前完成的功能有
 - [x] sass全局变量以及mixins设置
 - [x] 路由守卫设置
-- [x] axios全局g以及响应拦截
+- [x] ~~axios全局g以及响应拦截~~ 
+- [x] axios接口统一封装管理
 - [x] vuex模块化管理
 - [x] Eslint + prettier配置
 - [x] fastmock数据模拟
-
-#### 未完成
-- [ ] node.js服务端
+- [x] 用户登录
 
 
 ### Project scripts
