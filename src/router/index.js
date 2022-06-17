@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/shop',
-    name: 'Shop',
+    name: 'shop',
     component: () => import(/* webpackChunkName: "shop" */ '@/views/shop')
   },
   {
