@@ -101,6 +101,7 @@ export default {
       }
       .right {
         flex: 1;
+        padding-left: .16rem;
         .title {
           height: .2rem;
           line-height: .2rem;
