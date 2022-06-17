@@ -12,16 +12,7 @@
       </div>
     </div>
     <shop-item :item="currentItem" />
-    <div class="content">
-      <div class="content__left">
-        <div>全部商品</div>
-        <div>全部商品</div>
-      </div>
-      <div class="content__right">
-        <div>番茄</div>
-        <div>番茄</div>
-      </div>
-    </div>
+    <shop-content />
   </div>
 </template>
 
@@ -29,9 +20,10 @@
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import shopItem from './components/shopItem.vue'
+import shopContent from './components/shopContent.vue'
 export default {
   name: 'shop',
-  components: { shopItem },
+  components: { shopItem, shopContent },
   setup() {
     const route = useRoute() // 当前路由
     let currentItem = reactive({})
